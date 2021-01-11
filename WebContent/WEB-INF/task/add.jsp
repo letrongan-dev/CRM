@@ -18,7 +18,14 @@
 					<label>End Date</label> <input type="date" name="endDate"
 						class="form-control" required/>
 				</div>
-				
+				<div class="form-group">
+                   <label for="status" class=" form-control-label">User</label>
+                      <select name="role" id="select" class="form-control">
+                      	<c:forEach items="${listUser }" var="user"> 
+                          	<option value="${user.id }">${user.name }</option>
+                      	</c:forEach>
+                      </select>
+                </div>
 				<div class="form-group">
                    <label for="status" class=" form-control-label">Status</label>
                       <select name="role" id="select" class="form-control">
