@@ -1,7 +1,11 @@
 package com.myproject.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
+/**
+ * @author dell 3559
+ *
+ */
 public class Task {
 	private int id;
 	private String short_description;
@@ -22,6 +26,15 @@ public class Task {
 		this.end_date = end_date;
 		this.user_id = user_id;
 		this.status = status;
+	}
+		
+	public Task(String short_description, String description, Date start_date, Date end_date, int id) {
+		super();
+		this.short_description = short_description;
+		this.description = description;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.id = id;
 	}
 
 	public int getId() {
@@ -79,5 +92,11 @@ public class Task {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		return ("ID"+ id + "s-desc"+short_description+"desc"+description+"startdate"+start_date+"enđate"+end_date);
+	}
+	
 	
 }

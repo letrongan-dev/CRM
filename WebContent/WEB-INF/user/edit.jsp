@@ -18,18 +18,10 @@
 				<div class="form-group">
                    <label for="select" class=" form-control-label">Role</label>
                       <select name="role" id="select" class="form-control">
-                      <c:choose>
-                      		<c:when test="${userEdit.role == 'ADMIN'}">
-                      			<option value="ADMIN" selected>ADMIN</option>
-							</c:when>
-                      		<c:when test="${userEdit.role  == 'LEADER'}">
-                      			<option value="ADMIN" selected>LEADER</option>
-                      		</c:when>
-                      		<c:when test="${userEdit.role == 'EMPLOYEE'}">
-                      			<option value="ADMIN" selected>EMPLOYEE</option>
-                      		</c:when>
-                      		<c:otherwise>---Please select---</c:otherwise>
-                      </c:choose>
+                          <option value="#">---Please select---</option>
+                          <option value="ADMIN">ADMIN</option>
+                          <option value="LEADER">LEADER</option>
+                          <option value="EMPLOYEE">EMPLOYEE</option>         
                       </select>
                 </div>
 			</div>
