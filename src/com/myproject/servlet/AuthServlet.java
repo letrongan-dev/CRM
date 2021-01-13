@@ -62,7 +62,7 @@ public class AuthServlet extends HttpServlet {
 			if (BCrypt.checkpw(password, user.getPassword())) {
 				HttpSession session = request.getSession();
 				session.setAttribute("LOGIN", user);
-				response.sendRedirect(request.getContextPath());
+				response.sendRedirect(request.getContextPath()+"/profile");
 			}else {
 				request.setAttribute("err", "Sai email or mật khẩu!");
 				request.getRequestDispatcher("/WEB-INF/auth/login.jsp").forward(request, response);

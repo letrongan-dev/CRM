@@ -23,20 +23,12 @@
 					<textarea class="col-lg-12" name="desc"></textarea>
 				</div>
 				<div class="form-group">
-                   <label for="status" class=" form-control-label">User</label>
-                      <select name="userId" id="select" class="form-control">
-                      	<c:forEach items="${listUser }" var="user"> 
-                          	<option value="${user.id }">${user.name }</option>
-                      	</c:forEach>
-                      </select>
-                </div>
-				<div class="form-group">
-                   <label for="status" class=" form-control-label">Status</label>
+                   <label for="status" class=" form-control-label">Task</label>
                       <select name="status" id="select" class="form-control">
-                          <option value="0">---Please select---</option>
-                          <option value="1">Đang thực hiện</option>
-                          <option value="2">Đang test</option>
-                          <option value="3">Đã hoàn thành</option>
+                          <option value="0">None</option>
+                          <c:forEach items="${listTask }" var="task">
+                          <option value="${task.id }">${task.short_description }</option>
+                          </c:forEach>
                       </select>
                 </div>
 			</div>

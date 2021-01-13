@@ -24,10 +24,6 @@
 	<location>/WEB-INF/errors/404.jsp</location>
   </error-page>
 
-   <error-page>
-	 <error-code>500</error-code>
-	 <location>/WEB-INF/errors/500.jsp</location>
-   </error-page>
    
    <error-page>
 	 <error-code>403</error-code>
