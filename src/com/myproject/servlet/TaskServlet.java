@@ -1,11 +1,8 @@
 package com.myproject.servlet;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.myproject.implement.TaskDao;
-import com.myproject.implement.UserDao;
 import com.myproject.entity.Task;
 import com.myproject.entity.User;
+import com.myproject.implement.TaskDao;
+import com.myproject.implement.UserDao;
 
-@WebServlet(urlPatterns = {"/task","/task/add","/task/edit", "/task/delete","/task/insert","/task/get-task","/update-status"})
+@WebServlet(urlPatterns = {"/task","/task/add","/task/edit", "/task/delete",
+		"/task/insert","/task/get-task","/update-status", "/task/search"})
 public class TaskServlet extends HttpServlet{
 	TaskDao taskDao = null;
 	UserDao userDao = null;
@@ -28,6 +26,7 @@ public class TaskServlet extends HttpServlet{
 	String pathAdd = "/WEB-INF/task/add.jsp";
 	String pathEdit = "/WEB-INF/task/edit.jsp";
 	String pathGet = "/WEB-INF/task/get.jsp";
+	String pathSearch = "/WEB-INF/task/search.jsp";
 	public TaskServlet() {
 		taskDao = new TaskDao();
 		userDao = new UserDao();
@@ -39,18 +38,31 @@ public class TaskServlet extends HttpServlet{
 		
 		switch (action) {
 		case "/task":
-			req.setAttribute("listTask", taskDao.getAll());
+			try {
+				req.setAttribute("listTask", taskDao.getAll());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathIndex).forward(req, resp);
 			break;
 		case "/task/add":
-			req.setAttribute("listTask", taskDao.getAll());
+			try {
+				req.setAttribute("listTask", taskDao.getAll());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			req.getRequestDispatcher(pathAdd).forward(req, resp);
 			break;
 		case "/task/edit":
 			int idEdit = Integer.valueOf(req.getParameter("id"));
-			Task task = (Task) taskDao.getById(idEdit);
-			req.setAttribute("taskEdit", task);
+			Task task;
+			try {
+				task = (Task) taskDao.getById(idEdit);
+				req.setAttribute("taskEdit", task);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathEdit).forward(req, resp);
 			break;
@@ -61,10 +73,22 @@ public class TaskServlet extends HttpServlet{
 			break;
 		case "/task/get-task":
 			int idGet = Integer.valueOf(req.getParameter("id"));
-			req.setAttribute("taskGet", taskDao.getById(idGet));
+			try {
+				req.setAttribute("taskGet", taskDao.getById(idGet));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			req.setAttribute("listTask", taskDao.getTaskByTaskID(idGet));
 			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathGet).forward(req, resp);
+			break;
+		case "/task/search":
+			String input = req.getParameter("key");
+			List<Task> list = taskDao.findShortDesc(input);
+			req.setAttribute("listTaskSDesc", list);
+			req.setAttribute("listUser", userDao.getAll());
+			req.setAttribute("key", input);
+			req.getRequestDispatcher(pathIndex).forward(req, resp);
 			break;
 		default:
 			break;
@@ -84,7 +108,9 @@ public class TaskServlet extends HttpServlet{
 			String desc = req.getParameter("desc");
 			Date startDate = Date.valueOf(req.getParameter("startDate"));
 			Date endDate = Date.valueOf(req.getParameter("endDate"));
+			int taskId = Integer.valueOf(req.getParameter("taskId"));
 			Task task = new Task(shortDesc, desc, startDate, endDate);
+			task.setTask_id(taskId);
 			taskDao.add(task);
 			resp.sendRedirect(req.getContextPath()+"/task");
 			break;
@@ -127,6 +153,7 @@ public class TaskServlet extends HttpServlet{
 			taskDao.updateStatus(updateStt, updateStt.getUser_id());
 			resp.sendRedirect(req.getContextPath()+"/profile");
 			break;
+		
 		default:
 			break;
 		}

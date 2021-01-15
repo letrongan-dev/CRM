@@ -80,11 +80,11 @@
 		              <table class="table table-striped">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">Title</th>
-		                    <th scope="col">Start date</th>
-		                    <th scope="col">End date</th>
-		                    <th scope="col">Description</th>
-		                    <th scope="col">Status</th>
+		                    <th scope="col">Tiêu đề</th>
+		                    <th scope="col">Ngày bắt đầu</th>
+		                    <th scope="col">Ngày kết thúc</th>
+		                    <th scope="col">Mô tả</th>
+		                    <th scope="col">Trạng thái</th>
 		                    <th scope="col">#</th>
 		                  </tr>
 		                </thead>

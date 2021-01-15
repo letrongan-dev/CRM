@@ -39,11 +39,7 @@ public class AuthFilter implements Filter {
 				
 				User user = (User) session.getAttribute("LOGIN");
 				String roleName = user.getRole();
-				if(action.startsWith("/user") && !roleName.equals("ADMINISTRATOR")){
-					resp.sendRedirect(req.getContextPath()+"/error/403");
-					return;
-				}
-				if(action.startsWith("/task") && roleName.equals("EMPLOYEE")){
+				if(action.startsWith("/user") && (roleName.equals("MEMBER"))){
 					resp.sendRedirect(req.getContextPath()+"/error/403");
 					return;
 				}

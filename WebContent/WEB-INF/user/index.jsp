@@ -21,9 +21,9 @@
 		<thead>
 			<tr>
 				<th>ID</th>
-				<th>Name</th>
+				<th>Họ tên</th>
 				<th>Email</th>
-				<th>Role</th>
+				<th>Quyền hệ thống</th>
 				<th>#</th>
 			</tr>
 		</thead>
@@ -34,11 +34,11 @@
 				<td>${user.name }</td>
 				<td>${user.email }</td>
 				<td>${user.role }</td>
-				<td><a href='<c:url value="/user/edit?id=${user.id }"/>' class="btn btn-sm btn-info"> <i
+				<td><a href='<c:url value="/user/edit?id=${user.id }"/>' class="btn btn-success"> <i
 						class="fa fa-pencil-square-o"></i>
-				</a> <a href='<c:url value="/user/delete?id=${user.id }"/>' class="btn btn-sm btn-danger"> <i
-						class="fa fa-trash-o"></i>
-				</a></td>
+				</a> <a data-confirm='Bạn thật sự muốn xóa người dùng này ?' 
+					href='<c:url value="/user/delete?id=${task.id }"/>' class="btn btn-danger"><i class="fa fa-trash-o">
+					</i></a></td>
 			</tr>
 			</c:forEach>
 		</tbody>

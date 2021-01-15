@@ -11,24 +11,24 @@
             </a>
 		</div>
 		<div class="col-md-4">
+			<form action='<c:url value="/task/search"/>' method="get">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Tìm kiếm...">
-				<div class="input-group-append">
-					<span class="input-group-text" id="basic-addon2"><i
-						class="fa fa-search"></i></span>
-				</div>
+				<input type="text" class="form-control" name="key" placeholder="Tìm kiếm...">
+				<button type="submit" class="input-group-text" id="basic-addon2"><i
+				class="fa fa-search"></i></button>	
 			</div>
+		</form> 
 		</div>
 	</div>
 	<table class="table table-bordered table-hover mt-3">
 		<thead>
 			<tr>
 				<th>ID</th>
-				<th>Title</th>
-				<th>Start-Date</th>
-				<th>End-Date</th>
-				<th>User</th>
-				<th>Status</th>
+				<th>Tiêu đề</th>
+				<th>Ngày bắt đầu</th>
+				<th>Ngày kết thúc</th>
+				<th>Người thực hiện</th>
+				<th>Trạng thái</th>
 				<th>#</th>
 			</tr>
 		</thead>
@@ -36,7 +36,8 @@
 			<c:forEach items="${listTask }" var="task">
 			<tr>
 				<td>${task.id }</td>
-				<td>${task.short_description }</td>
+				<td><a href='<c:url value="/task/get-task?id=${task.id }"/>'>
+				${task.short_description }</a></td>
 				<td><fmt:formatDate value="${task.start_date }" type="date" pattern="dd/MM/yyyy"/></td>
 				<td><fmt:formatDate value="${task.end_date }" type="date" pattern="dd/MM/yyyy"/></td>
 				<td>
@@ -62,70 +63,71 @@
                    		<c:otherwise>No Valid</c:otherwise>
                  </c:choose>
                  
-				<td><a href='<c:url value="/task/get-task?id=${task.id }"/>' class="btn btn-success"> <i
-						class="fa fa-plus-square-o"></i>
-				</a><a class="btn btn-primary text-white" data-toggle="modal" data-target="#editModal${task.id }">
+				<td><a class="btn btn-primary text-white" data-toggle="modal" data-target="#editModal${task.id }">
                 		<i class="fa fa-pencil-square-o"></i>
-				</a><a href='<c:url value="/task/delete?id=${task.id }"/>' class="btn btn-danger"> <i
-						class="fa fa-trash-o"></i>
+				</a><a data-confirm='Bạn thật sự muốn xóa công việc này ?' 
+					href='<c:url value="/task/delete?id=${task.id }"/>' class="btn btn-danger"><i class="fa fa-trash-o"></i>
 				</a></td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
+	<div class="col-md-6 offset-md-3 text-center">
+		 <button type="button" class="btn btn-secondary" onclick="quay_lai_trang_truoc()">Quay lại</button>
+	</div>
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Thêm task vào ${taskGet.short_description}</h4>
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel">Thêm task vào ${taskGet.short_description}</h4>
+       </div>
+       <div class="modal-body">
+        <form action='<c:url value="/task/insert"/>' method="post">
+        	 <input type="hidden" name="taskId" value="${taskGet.id }">
+          <div class="col-lg-12">
+          <fieldset class="form-group">
+            <label>Title</label>
+            <input class="form-control" name="shortDesc" required>
+          </fieldset>
           </div>
-          <div class="modal-body">
-	          <form action='<c:url value="/task/insert"/>' method="post">
-	          	 <input type="hidden" name="taskId" value="${taskGet.id }">
-	            <div class="col-lg-12">
-	            <fieldset class="form-group">
-	              <label>Title</label>
-	              <input class="form-control" name="shortDesc" required>
-	            </fieldset>
-	            </div>
-	            <div class="col-lg-12">
-	            <fieldset class="form-group">
-	              <label>Ngày khởi công</label>
-	              <input class="form-control" id="basicInput" type="date" name="startDate">
-	            </fieldset>
-	          </div>
-	          <div class="col-lg-12">
-	            <fieldset class="form-group">
-	              <label>Ngày kết thúc</label>
-	              <input class="form-control" id="basicInput" type="date" name="endDate">
-	            </fieldset>
-	          </div>
-	          <div class="form-group">
-				<div><label>Description</label></div>
-				<textarea class="col-lg-12" name="desc"></textarea>
-			 </div>
-	          <div class="col-lg-12">
-	            <fieldset class="form-group">
-	              <label>Người thực hiện</label> 
-	              <select class="form-control" name="userId">
-	              	 <option value="0">---Please select---</option>
-	              	<c:forEach items="${listUser }" var="user">
-	                 <option value="${user.id }">${user.name }</option>    
-	              	</c:forEach>    
-	                </select>
-	            </fieldset>
-	          </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">SAVE</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-          </form>
+          <div class="col-lg-12">
+          <fieldset class="form-group">
+            <label>Ngày bắt đầu</label>
+            <input class="form-control" id="basicInput" type="date" name="startDate">
+          </fieldset>
         </div>
-      </div>
-    </div>
-<c:forEach items="${listTaskUser }" var="task">
-<div class="modal fade" id="editModal${task.id }" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="col-lg-12">
+          <fieldset class="form-group">
+            <label>Ngày kết thúc</label>
+            <input class="form-control" id="basicInput" type="date" name="endDate">
+          </fieldset>
+        </div>
+        <div class="form-group">
+	<div><label>Description</label></div>
+	<textarea class="col-lg-12" name="desc"></textarea>
+ </div>
+        <div class="col-lg-12">
+          <fieldset class="form-group">
+            <label>Người thực hiện</label> 
+            <select class="form-control" name="userId">
+            	 <option value="0">---Please select---</option>
+            	<c:forEach items="${listUser }" var="user">
+               <option value="${user.id }">${user.name }</option>    
+            	</c:forEach>    
+              </select>
+          </fieldset>
+        </div>
+       </div>
+       <div class="modal-footer">
+         <button type="submit" class="btn btn-primary">SAVE</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+       </form>
+     </div>
+   </div>
+ </div>
+<c:forEach items="${listTask }" var="taskEditModal">
+<div class="modal fade" id="editModal${taskEditModal.id }" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
@@ -133,28 +135,28 @@
        </div>
        <div class="modal-body">
         <form action='<c:url value="/task/edit"/>' method="post">
-        	 <input type="hidden" name="id" value="${task.id }">
+        	 <input type="hidden" name="id" value="${taskEditModal.id }">
           <div class="col-lg-12">
           <fieldset class="form-group">
             <label>Title</label>
-            <input class="form-control" name="shortDesc" value="${task.short_description }"  required>
+            <input class="form-control" name="shortDesc" value="${taskEditModal.short_description }"  required>
           </fieldset>
           </div>
           <div class="col-lg-12">
           <fieldset class="form-group">
             <label>Ngày bắt đầu</label>
-            <input class="form-control" type="date" name="startDate" value="${task.start_date }">
+            <input class="form-control" type="date" name="startDate" value="${taskEditModal.start_date }">
           </fieldset>
         </div>
         <div class="col-lg-12">
           <fieldset class="form-group">
             <label>Ngày kết thúc</label>
-            <input class="form-control" type="date" name="endDate" value="${task.end_date }">
+            <input class="form-control" type="date" name="endDate" value="${taskEditModal.end_date }">
           </fieldset>
         </div>
         <div class="form-group">
 		<div><label>Description</label></div>
-		<textarea class="col-lg-12" name="desc">${task.description }"</textarea>
+		<textarea class="col-lg-12" name="desc">${taskEditModal.description }</textarea>
  		</div>
         <div class="col-lg-12">
           <fieldset class="form-group">
@@ -162,7 +164,7 @@
             <select class="form-control" name="userId">
             	 <c:forEach items="${listUser }" var="user">
 	            	<c:choose>
-	            		<c:when test="${user.id == taskEdit.user_id }">
+	            		<c:when test="${user.id == taskEditModal.user_id }">
 	            		<option value="${user.id }" selected="selected">${user.name }</option>
 	            		</c:when>
 	            		<c:otherwise><option value="${user.id }">${user.name }</option></c:otherwise>    
@@ -182,3 +184,8 @@
  </div>
 </c:forEach>
 </section>
+<script>
+    function quay_lai_trang_truoc(){
+        history.back();
+    }
+</script>

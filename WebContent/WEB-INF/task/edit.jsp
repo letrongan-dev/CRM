@@ -9,19 +9,19 @@
 				<input type="hidden" name="id"
 						class="form-control" value="${taskEdit.id }"/>
 				<div class="form-group">
-					<label>Title</label> <input type="text" name="shortDesc"
+					<label>Tiêu đề</label> <input type="text" name="shortDesc"
 						class="form-control" value="${taskEdit.short_description }"/>
 				</div>
 				<div class="form-group">
-					<label>Start Date</label> <input type="date" name="startDate"
+					<label>Ngày bắt đầu</label> <input type="date" name="startDate"
 						class="form-control" value="${taskEdit.start_date }"/>
 				</div>
 				<div class="form-group">
-					<label>End Date</label> <input type="date" name="endDate"
+					<label>Ngày kết thúc</label> <input type="date" name="endDate"
 						class="form-control" value="${taskEdit.end_date }"/>
 				</div>
 				<div class="form-group">
-					<div><label>Description</label></div>
+					<div><label>Mô tả</label></div>
 					<textarea class="col-lg-12" name="desc">${taskEdit.description }</textarea>
 				</div>
 				<div class="col-lg-12">
@@ -59,7 +59,7 @@
 			</div> -->
 			<div class="col-md-6 offset-md-3">
 				<button type="submit" class="btn btn-success">Lưu lại</button>
-				<a class="btn btn-secondary" href="user-list.html">Quay lại</a>
+				<a class="btn btn-secondary" href='<c:url value="/task" />'>Quay lại</a>
 			</div>
 		</div>
 	</form>

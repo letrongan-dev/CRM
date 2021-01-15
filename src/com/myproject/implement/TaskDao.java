@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,31 @@ import com.myproject.entity.TaskAndUser;
 
 public class TaskDao implements Dao {
 
+	public List<Task> findShortDesc(String input){
+		List<Task> listTask = new ArrayList<Task>();
+		String query = "select * from task where short_description like '%"+input+"%'";
+		Connection connection = JDBCConnection.getConnection();
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			while (resultSet.next()) {
+				Task task = new Task();
+				task.setId(resultSet.getInt("id"));
+				task.setShort_description(resultSet.getString("short_description"));
+				task.setStart_date(resultSet.getDate("start_date"));
+				task.setEnd_date(resultSet.getDate("end_date"));
+				task.setDescription(resultSet.getString("description"));
+				task.setUser_id(resultSet.getInt("user_id"));
+				task.setStatus(resultSet.getInt("status"));
+				task.setTask_id(resultSet.getInt("task_id"));
+				listTask.add(task);
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listTask;
+	}
+	
 	public int count(int input, int userId) {
 		int count = 0;
 		String query = "select count(*) from task where status=? and user_id=?";
@@ -164,7 +190,7 @@ public class TaskDao implements Dao {
 	
 	
 	@Override
-	public List<Object> getAll() {
+	public List<Object> getAll() throws SQLException{
 		List<Object> listTask = new ArrayList<Object>();
 		String query = "select * from task";
 		Connection connection = JDBCConnection.getConnection();
@@ -184,21 +210,17 @@ public class TaskDao implements Dao {
 				listTask.add(task);
 			}	
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			if(connection!=null)
+				connection.close();
+				
 		}
 		return listTask;
 	}
 
 	@Override
-	public Object getById(int id) {
+	public Object getById(int id) throws SQLException{
 		Task task = new Task();
 		String query = "select * from task where id = ?";
 		Connection connection = JDBCConnection.getConnection();
@@ -217,22 +239,17 @@ public class TaskDao implements Dao {
 			break;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			if(connection!=null) 
+				connection.close();
 		}
 		return task;
 	}
 
 	@Override
 	public int add(Object ob) {
-		String query = "insert into task (short_description, description, start_date, end_date) values (?,?,?,?)";
+		String query = "insert into task (short_description, description, start_date, end_date, task_id) values (?,?,?,?,?)";
 		Connection connection = JDBCConnection.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -240,6 +257,7 @@ public class TaskDao implements Dao {
 			statement.setString(2, ((Task) ob).getDescription());
 			statement.setDate(3, ((Task) ob).getStart_date());
 			statement.setDate(4, ((Task) ob).getEnd_date());
+			statement.setInt(5, ((Task) ob).getTask_id());
 			
 			statement.execute();
 			return 1;

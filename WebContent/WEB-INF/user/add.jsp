@@ -19,7 +19,7 @@
 						class="form-control" placeholder="password" required/>
 				</div>
 				<div class="form-group">
-                   <label for="select" class=" form-control-label">Role</label>
+                   <label for="select" class=" form-control-label">Quyền hệ thống</label>
                       <select name="role" id="select" class="form-control">
                           <option value="#">---Please select---</option>
                           <option value="ADMIN">ADMIN</option>
@@ -30,7 +30,7 @@
 			</div>
 			<div class="col-md-6 offset-md-3">
 				<button type="submit" class="btn btn-success">Lưu lại</button>
-				<a class="btn btn-secondary" href="user-list.html">Quay lại</a>
+				<a class="btn btn-secondary" href='<c:url value="/user" />'>Quay lại</a>
 			</div>
 		</div>
 	</form>
