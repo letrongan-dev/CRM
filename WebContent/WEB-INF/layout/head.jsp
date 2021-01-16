@@ -6,3 +6,9 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href='<c:url value="/static/css/bootstrap.min.css" />'>
 <link rel="stylesheet" href='<c:url value="/static/css/style.css" />'>
+<style>
+.error{
+	color: red;
+	font-style: italic;
+}
+</style>

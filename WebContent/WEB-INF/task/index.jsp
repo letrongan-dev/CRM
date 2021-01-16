@@ -6,7 +6,7 @@
 	<h3 class="mb-3">Danh sách công việc</h3>
 	<div class="row">
 		<div class="col-md-8">
-			<a href='<c:url value="/task/add"/>' class="btn btn-primary btn-lg">Thêm mới</a>
+			<a href='<c:url value="/task/add"/>' class="btn btn-primary">Thêm mới</a>
 		</div>
 		<div class="col-md-4">
 		 <form action='<c:url value="/task/search"/>' method="get">

@@ -11,21 +11,30 @@
 						class="form-control" placeholder="short description" required/>
 				</div>
 				<div class="form-group">
-					<label>Ngày bắt đầu</label> <input type="date" name="startDate"
-						class="form-control" required/>
+					<label>Ngày bắt đầu</label> <input type="text" name="startDate" id="start" readonly="readonly"
+						class="form-control"/>
 				</div>
 				<div class="form-group">
-					<label>Ngày kết thúc</label> <input type="date" name="endDate"
-						class="form-control" required/>
+					<label>Ngày kết thúc</label> <input type="text" name="endDate" id="end" 
+						class="form-control" readonly="readonly"/>
 				</div>
 				<div class="form-group">
 					<div><label>Mô tả</label></div>
 					<textarea class="col-lg-12" name="desc"></textarea>
 				</div>
+				 <div class="form-group">
+		          <fieldset>
+		            <label>Người thực hiện</label> 
+		            <select class="form-control" name="userId">
+		            	<c:forEach items="${listUser }" var="user">
+		            	<option value="${user.id }">${user.name }</option>
+		            	</c:forEach>    
+		              </select>
+		          </fieldset>
+		        </div>
 				<div class="form-group">
                    <label for="status" class=" form-control-label">Công việc</label>
                       <select name="taskId" id="select" class="form-control">
-                          <option value="0">None</option>
                           <c:forEach items="${listTask }" var="task">
                           <option value="${task.id }">${task.short_description }</option>
                           </c:forEach>

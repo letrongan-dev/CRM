@@ -19,7 +19,7 @@
                    <label for="select" class=" form-control-label">Quyền hệ thống</label>
                       <select name="role" id="select" class="form-control">
                           <option value="#">---Please select---</option>
-                          <option value="ADMIN">ADMIN</option>
+                          <option value="ADMINISTRATOR">ADMINISTRATOR</option>
                           <option value="LEADER">LEADER</option>
                           <option value="EMPLOYEE">EMPLOYEE</option>         
                       </select>

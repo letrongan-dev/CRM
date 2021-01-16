@@ -13,19 +13,18 @@
 						class="form-control" value="${taskEdit.short_description }"/>
 				</div>
 				<div class="form-group">
-					<label>Ngày bắt đầu</label> <input type="date" name="startDate"
+					<label>Ngày bắt đầu</label> <input type="text" name="startDate" id="start" readonly="readonly"
 						class="form-control" value="${taskEdit.start_date }"/>
 				</div>
 				<div class="form-group">
-					<label>Ngày kết thúc</label> <input type="date" name="endDate"
+					<label>Ngày kết thúc</label> <input type="text" name="endDate" id="end" readonly="readonly"
 						class="form-control" value="${taskEdit.end_date }"/>
 				</div>
 				<div class="form-group">
 					<div><label>Mô tả</label></div>
 					<textarea class="col-lg-12" name="desc">${taskEdit.description }</textarea>
 				</div>
-				<div class="col-lg-12">
-		          <fieldset class="form-group">
+				<div class="form-group">
 		            <label>Người thực hiện</label> 
 		            <select class="form-control" name="userId">
 		            	 <option value="0">---Please select---</option>
@@ -38,7 +37,6 @@
 		            	</c:choose>    
 		            	</c:forEach>    
 		              </select>
-		          </fieldset>
 		        </div>
 				<!-- <div class="col-lg-12">
 	            <fieldset class="form-group">

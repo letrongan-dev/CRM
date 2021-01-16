@@ -3,15 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <section id="admin-content" class="p-3">
 	<h3 class="mb-4 text-center">Thêm mới thành viên</h3>
-	<form method="post" action='<c:url value="/user/add"/>'>
+	<form method="post" action='<c:url value="/user/add"/>' id="userVal">
 		<div class="row col-md-6 offset-md-3">
 			<div class="col-md-12">
 				<div class="form-group">
-					<label>Họ tên</label> <input type="text" name="name"
+					<label>Họ tên</label> <input type="text" name="name" id="name"
 						class="form-control" placeholder="Họ và tên" required/>
 				</div>
 				<div class="form-group">
-					<label>Email</label> <input type="email" name="email"
+					<label>Email</label> <input type="email" name="email" id="email"
 						class="form-control" placeholder="email" required/>
 				</div>
 				<div class="form-group">
@@ -27,6 +27,7 @@
                           <option value="EMPLOYEE">EMPLOYEE</option>
                       </select>
                 </div>
+               
 			</div>
 			<div class="col-md-6 offset-md-3">
 				<button type="submit" class="btn btn-success">Lưu lại</button>

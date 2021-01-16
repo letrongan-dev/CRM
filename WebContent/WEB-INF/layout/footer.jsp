@@ -6,33 +6,58 @@
 <script src='<c:url value="/static/js/popper.min.js" />'></script>
 <script src='<c:url value="/static/js/bootstrap.min.js" />'></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script>
-$(document).ready(function(){
-    $('[data-confirm]').on('click', function(e){
-        e.preventDefault(); //cancel default action
-
-        //Recuperate href value
-        var href = $(this).attr('href');
-        var message = $(this).data('confirm');
-
-        //pop up
-        swal({
-            title: "Thông báo",
-            text: message, 
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-          if (willDelete) {
-            swal("Xóa thành công!!", {
-              icon: "success",
-              timmer:20000
-            });
-            window.location.href = href;
-          }
-        });
-    });
-    
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src='<c:url value="/static/js/function.js" />'></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<!-- <script>
+$(document).ready(function() {
+	$("#userVal").validate(
+		{
+			rules: {
+				name: {
+					required : true,
+					minlength : 3,
+					lettersonly : true,
+					remote : {
+						url: '<c:url value= "/available-name"/>',
+						type: "get",
+						data: {
+							name: function() {
+								return $("#name").val()+"131351651651";
+							}
+						}
+					}
+				},
+				email: {
+					required : true,
+					email: true,
+					remote : {
+						url: '<c:url value= "/available"/>',
+						type: "get",
+						data: {
+							email: function() {
+								return $("#email").val();
+							}
+						}
+					}
+				},
+				password: {
+					required : true,
+					minlength : 5
+				},
+			},
+			messages: {
+				email: {
+					remote: "Email already exists!"
+				},
+				name: {
+					remote: "Name already exists!"
+				}
+			
+			}
+		}
+	);
 });
-</script>
+</script> -->

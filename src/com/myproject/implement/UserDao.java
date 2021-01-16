@@ -13,174 +13,207 @@ import com.myproject.entity.User;
 
 public class UserDao implements Dao{
 
-	
 	public User findByEmail(String email) {
-		Connection connection = JDBCConnection.getConnection();
-		User user = new User();
-		String query = "select * from user where email = ?";
-		try{
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, email);
-			ResultSet resultSet = statement.executeQuery();
-		while(resultSet.next()) {
-			user.setId(resultSet.getInt("id"));
-			user.setEmail(resultSet.getString("email"));
-			user.setPassword(resultSet.getString("password"));
-			user.setName(resultSet.getString("name"));
-			user.setRole(resultSet.getString("role"));
-			break;
+		User user = null;
+		try {
+			Connection connection = JDBCConnection.getConnection();
+			String query = "select * from user where email = ?";
+			try{
+				PreparedStatement statement = connection.prepareStatement(query);
+				statement.setString(1, email);
+				ResultSet resultSet = statement.executeQuery();
+				while(resultSet.next()) {
+					user = new User();
+					user.setId(resultSet.getInt("id"));
+					user.setEmail(resultSet.getString("email"));
+					user.setPassword(resultSet.getString("password"));
+					user.setName(resultSet.getString("name"));
+					user.setRole(resultSet.getString("role"));
+					break;
+				}
+				return user;
+			} catch (SQLException e) {
+				throw e;
+			}finally {
+				if(connection!=null) 
+					connection.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
+		}
+		
+		return user;
+	}
+	
+	public User findByName(String name){
+		User user = null;
+		try {
+			Connection connection = JDBCConnection.getConnection();
+			String query = "select * from user where name like '%"+name+"%'";
+			try{
+				PreparedStatement statement = connection.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery();
+				while(resultSet.next()) {
+					user = new User();
+					user.setId(resultSet.getInt("id"));
+					user.setEmail(resultSet.getString("email"));
+					user.setPassword(resultSet.getString("password"));
+					user.setName(resultSet.getString("name"));
+					user.setRole(resultSet.getString("role"));
+					break;
 				}
+				
+			} catch (SQLException e)  {
+				throw e;
+			}finally {
+				if(connection!=null)
+					connection.close();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return user;
 	}
 	
-	
 	@Override
 	public List<Object> getAll() {
-		Connection connection = JDBCConnection.getConnection();
 		List<Object> listUsers = new ArrayList<Object>();
-		String query = "select * from user";
 		try {
-			PreparedStatement statement = connection.prepareStatement(query);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				User user = new User();
-				user.setId(resultSet.getInt("id"));
-				user.setEmail(resultSet.getString("email"));
-				user.setPassword(resultSet.getString("password"));
-				user.setName(resultSet.getString("name"));
-				user.setRole(resultSet.getString("role"));
-				listUsers.add(user);
-			}	
+			Connection connection = JDBCConnection.getConnection();
+			String query = "select * from user";
+			try {
+				PreparedStatement statement = connection.prepareStatement(query);
+				ResultSet resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					User user = new User();
+					user.setId(resultSet.getInt("id"));
+					user.setEmail(resultSet.getString("email"));
+					user.setPassword(resultSet.getString("password"));
+					user.setName(resultSet.getString("name"));
+					user.setRole(resultSet.getString("role"));
+					listUsers.add(user);
+				}	
+			} catch (SQLException e) {
+				throw e;
+			}finally {
+				if(connection!=null)
+				connection.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		return listUsers;
 	}
 
 	@Override
 	public Object getById(int id) {
-		Connection connection = JDBCConnection.getConnection();
-		User user = new User();
-		String query = "select * from user where id = ?";
-		try{
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, id);
-		ResultSet resultSet = statement.executeQuery();
-		while(resultSet.next()) {
-			user.setId(resultSet.getInt("id"));
-			user.setEmail(resultSet.getString("email"));
-			user.setPassword(resultSet.getString("password"));
-			user.setName(resultSet.getString("name"));
-			user.setRole(resultSet.getString("role"));
-			break;
+		User user = null;
+		try {
+			Connection connection = JDBCConnection.getConnection();
+			String query = "select * from user where id = ?";
+			try{
+				PreparedStatement statement = connection.prepareStatement(query);
+				statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+			while(resultSet.next()) {
+				user = new User();
+				user.setId(resultSet.getInt("id"));
+				user.setEmail(resultSet.getString("email"));
+				user.setPassword(resultSet.getString("password"));
+				user.setName(resultSet.getString("name"));
+				user.setRole(resultSet.getString("role"));
+				break;
+				}
+			} catch (SQLException e) {
+				throw e;
+			}finally {
+				if(connection!=null)
+				connection.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		return user;
 	}
 
 	@Override
-	public int add(Object ob) {
-		Connection connection = JDBCConnection.getConnection();
-		String query = "insert into user (email, password, name, role ) values (?,?,?,?)";
+	public void add(Object ob) {
 		try {
+			Connection connection = JDBCConnection.getConnection();
+			String query = "insert into user (email, password, name, role ) values (?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, ((User) ob).getEmail());
-			statement.setString(2, ((User) ob).getPassword());
-			statement.setString(3, ((User) ob).getName());
-			statement.setString(4, ((User) ob).getRole());
-			
-			statement.execute();
+			try {
+				connection.setAutoCommit(false);
+				statement.setString(1, ((User) ob).getEmail());
+				statement.setString(2, ((User) ob).getPassword());
+				statement.setString(3, ((User) ob).getName());
+				statement.setString(4, ((User) ob).getRole());
+				
+				statement.execute();
+				connection.commit();
+			} catch (SQLException e) {
+				connection.rollback();
+			}finally {
+				connection.close();
+				statement.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
-		return 0;
+		return;
 	}
 
 	@Override
-	public int delete(int id) {
-		Connection connection = JDBCConnection.getConnection();
-		String query = "delete from user where id=?";
-		try{
+	public void delete(int id) {
+		try {
+			Connection connection = JDBCConnection.getConnection();
+			String query = "delete from user where id=?";
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, id);
-			
-			statement.executeUpdate();
+			try{
+				connection.setAutoCommit(false);
+				statement.setInt(1, id);
+				
+				statement.executeUpdate();
+				connection.commit();
+			} catch (SQLException e) {
+				connection.rollback();
+			}finally {
+				connection.close();
+				statement.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return 0;
+		}	
+		return;
 	}
 
 	@Override
-	public int update(Object ob) {
-		Connection connection = JDBCConnection.getConnection();
-		String query = "update user set email=?, password=?, name=?, role=? where id=? ";
+	public void update(Object ob) {
 		try {
+			Connection connection = JDBCConnection.getConnection();
+			String query = "update user set email=?, password=?, name=?, role=? where id=? ";
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, ((User) ob).getEmail());
-			statement.setString(2, ((User) ob).getPassword());
-			statement.setString(3, ((User) ob).getName());
-			statement.setString(4, ((User) ob).getRole());
-			statement.setInt(5, ((User) ob).getId());
-			
-			statement.executeUpdate();
+			try {
+				connection.setAutoCommit(false);
+				
+				statement.setString(1, ((User) ob).getEmail());
+				statement.setString(2, ((User) ob).getPassword());
+				statement.setString(3, ((User) ob).getName());
+				statement.setString(4, ((User) ob).getRole());
+				statement.setInt(5, ((User) ob).getId());
+				
+				statement.executeUpdate();
+				connection.commit();
+			} catch (SQLException e) {
+				connection.rollback();
+			}finally {
+				connection.close();
+				statement.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(connection!=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
-		return 0;
+		return;
 	}
 
 }

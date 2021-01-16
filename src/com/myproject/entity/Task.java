@@ -21,15 +21,6 @@ public class Task {
 		
 	}
 	
-	public Task(String short_description, String description, Date start_date, Date end_date, int user_id, int status) {
-		this.short_description = short_description;
-		this.description = description;
-		this.start_date = start_date;
-		this.end_date = end_date;
-		this.user_id = user_id;
-		this.status = status;
-	}
-	
 	public Task(String short_description, String description, Date start_date, Date end_date, int userId) {
 		super();
 		this.short_description = short_description;
@@ -56,16 +47,6 @@ public class Task {
 		this.end_date = end_date;
 		this.user_id = user_id;
 		this.status = status;
-		this.task_id = task_id;
-	}
-
-	public Task(int id, String short_description, String description, Date start_date, Date end_date, int task_id) {
-		super();
-		this.id = id;
-		this.short_description = short_description;
-		this.description = description;
-		this.start_date = start_date;
-		this.end_date = end_date;
 		this.task_id = task_id;
 	}
 

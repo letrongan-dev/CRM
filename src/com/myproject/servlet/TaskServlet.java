@@ -38,31 +38,19 @@ public class TaskServlet extends HttpServlet{
 		
 		switch (action) {
 		case "/task":
-			try {
-				req.setAttribute("listTask", taskDao.getAll());
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			req.setAttribute("listTask", taskDao.getAll());
 			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathIndex).forward(req, resp);
 			break;
 		case "/task/add":
-			try {
-				req.setAttribute("listTask", taskDao.getAll());
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			req.setAttribute("listTask", taskDao.getAll());
+			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathAdd).forward(req, resp);
 			break;
 		case "/task/edit":
 			int idEdit = Integer.valueOf(req.getParameter("id"));
-			Task task;
-			try {
-				task = (Task) taskDao.getById(idEdit);
-				req.setAttribute("taskEdit", task);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+			Task task = (Task) taskDao.getById(idEdit);
+			req.setAttribute("taskEdit", task);
 			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathEdit).forward(req, resp);
 			break;
@@ -73,11 +61,7 @@ public class TaskServlet extends HttpServlet{
 			break;
 		case "/task/get-task":
 			int idGet = Integer.valueOf(req.getParameter("id"));
-			try {
-				req.setAttribute("taskGet", taskDao.getById(idGet));
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			req.setAttribute("taskGet", taskDao.getById(idGet));
 			req.setAttribute("listTask", taskDao.getTaskByTaskID(idGet));
 			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathGet).forward(req, resp);
@@ -109,7 +93,9 @@ public class TaskServlet extends HttpServlet{
 			Date startDate = Date.valueOf(req.getParameter("startDate"));
 			Date endDate = Date.valueOf(req.getParameter("endDate"));
 			int taskId = Integer.valueOf(req.getParameter("taskId"));
+			int userIdAdd = Integer.valueOf(req.getParameter("userId"));
 			Task task = new Task(shortDesc, desc, startDate, endDate);
+			task.setUser_id(userIdAdd);
 			task.setTask_id(taskId);
 			taskDao.add(task);
 			resp.sendRedirect(req.getContextPath()+"/task");
@@ -123,11 +109,6 @@ public class TaskServlet extends HttpServlet{
 			int userIdEdit = Integer.parseInt(req.getParameter("userId"));
 			Task taskEdit = new Task(shortDescEdit, descEdit, startDateEdit, endDateEdit, userIdEdit);
 			taskEdit.setId(idEdit);
-//			taskEdit.setShort_description(shortDescEdit);
-//			taskEdit.setDescription(descEdit);
-//			taskEdit.setStart_date(startDateEdit);
-//			taskEdit.setEnd_date(endDateEdit);
-//			taskEdit.setUser_id(userIdEdit);
 			taskDao.update(taskEdit);
 			resp.sendRedirect(req.getContextPath()+"/task");
 			break;
@@ -140,7 +121,8 @@ public class TaskServlet extends HttpServlet{
 			Date endDateT = Date.valueOf(req.getParameter("endDate"));
 			Task insertTask = new Task(shortDescT, descT, startDateT, endDateT);
 			insertTask.setTask_id(taskIdT);
-			taskDao.insertTask(insertTask);
+			insertTask.setUser_id(userId);
+			taskDao.add(insertTask);
 			resp.sendRedirect(req.getContextPath()+"/task/get-task?id="+taskIdT);
 			break;
 		case "/update-status":

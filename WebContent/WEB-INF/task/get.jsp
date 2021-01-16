@@ -6,7 +6,7 @@
 	<h3 class="mb-3">Danh sách công việc ${taskGet.short_description }</h3>
 	<div class="row">
 		<div class="col-md-8">
-			<a class="btn btn-info text-white" data-toggle="modal" data-target="#addModal">
+			 <a class="btn btn-info text-white" data-toggle="modal" data-target="#addModal">
                 <i class="fa fa-pencil-square-o">THÊM MỚI</i>
             </a>
 		</div>
@@ -63,8 +63,8 @@
                    		<c:otherwise>No Valid</c:otherwise>
                  </c:choose>
                  
-				<td><a class="btn btn-primary text-white" data-toggle="modal" data-target="#editModal${task.id }">
-                		<i class="fa fa-pencil-square-o"></i>
+				<td><a href='<c:url value="/task/edit?id=${task.id }"/>' class="btn btn-info"> <i
+						class="fa fa-pencil-square-o"></i>
 				</a><a data-confirm='Bạn thật sự muốn xóa công việc này ?' 
 					href='<c:url value="/task/delete?id=${task.id }"/>' class="btn btn-danger"><i class="fa fa-trash-o"></i>
 				</a></td>
@@ -75,7 +75,7 @@
 	<div class="col-md-6 offset-md-3 text-center">
 		 <button type="button" class="btn btn-secondary" onclick="quay_lai_trang_truoc()">Quay lại</button>
 	</div>
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
@@ -92,25 +92,26 @@
           </div>
           <div class="col-lg-12">
           <fieldset class="form-group">
-            <label>Ngày bắt đầu</label>
-            <input class="form-control" id="basicInput" type="date" name="startDate">
+			<label>Ngày bắt đầu</label> 
+			<input type="text" name="startDate" id="start" readonly="readonly" class="form-control"/>
           </fieldset>
         </div>
         <div class="col-lg-12">
           <fieldset class="form-group">
-            <label>Ngày kết thúc</label>
-            <input class="form-control" id="basicInput" type="date" name="endDate">
+            <label>Ngày kết thúc</label> 
+            <input type="text" name="endDate" id="end" readonly="readonly" class="form-control"/>
           </fieldset>
         </div>
-        <div class="form-group">
-	<div><label>Description</label></div>
-	<textarea class="col-lg-12" name="desc"></textarea>
- </div>
+        <div class="col-lg-12">
+	        <div class="form-group">
+				<div><label>Mô tả</label></div>
+				<textarea class="col-lg-12" name="desc"></textarea>
+			 </div>
+		 </div>
         <div class="col-lg-12">
           <fieldset class="form-group">
             <label>Người thực hiện</label> 
             <select class="form-control" name="userId">
-            	 <option value="0">---Please select---</option>
             	<c:forEach items="${listUser }" var="user">
                <option value="${user.id }">${user.name }</option>    
             	</c:forEach>    
@@ -126,7 +127,7 @@
      </div>
    </div>
  </div>
-<c:forEach items="${listTask }" var="taskEditModal">
+<%--<c:forEach items="${listTask }" var="taskEditModal">
 <div class="modal fade" id="editModal${taskEditModal.id }" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
@@ -182,10 +183,5 @@
      </div>
    </div>
  </div>
-</c:forEach>
+</c:forEach> --%>
 </section>
-<script>
-    function quay_lai_trang_truoc(){
-        history.back();
-    }
-</script>
