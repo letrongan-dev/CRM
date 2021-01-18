@@ -53,7 +53,7 @@ public class AuthServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		User user = userDao.findByEmail(email);
-		boolean flag = BCrypt.checkpw(password, user.getPassword());
+//		boolean flag = BCrypt.checkpw(password, user.getPassword());
 		
 		if(user == null) {
 			request.setAttribute("err", "Tài khoản không tồn tại!");
@@ -65,7 +65,7 @@ public class AuthServlet extends HttpServlet {
 				response.sendRedirect(request.getContextPath()+"/profile");
 			}else {
 				request.setAttribute("err", "Sai email or mật khẩu!");
-				request.getRequestDispatcher("/WEB-INF/auth/login.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
 			}
 		};
 	}

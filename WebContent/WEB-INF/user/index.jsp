@@ -20,6 +20,7 @@
 	<table class="table table-bordered table-hover mt-3">
 		<thead>
 			<tr>
+				
 				<th>ID</th>
 				<th>Họ tên</th>
 				<th>Email</th>
@@ -30,6 +31,7 @@
 		<tbody>
 			<c:forEach items="${listUser }" var="user">
 			<tr>
+				
 				<td>${user.id }</td>
 				<td>${user.name }</td>
 				<td>${user.email }</td>
@@ -37,7 +39,7 @@
 				<td><a href='<c:url value="/user/edit?id=${user.id }"/>' class="btn btn-success"> <i
 						class="fa fa-pencil-square-o"></i>
 				</a> <a data-confirm='Bạn thật sự muốn xóa người dùng này ?' 
-					href='<c:url value="/user/delete?id=${task.id }"/>' class="btn btn-danger"><i class="fa fa-trash-o">
+					href='<c:url value="/user/delete?id=${user.id }"/>' class="btn btn-danger"><i class="fa fa-trash-o">
 					</i></a></td>
 			</tr>
 			</c:forEach>

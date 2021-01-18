@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.myproject.entity.Task;
+import com.myproject.entity.TaskAndUser;
 import com.myproject.entity.User;
 import com.myproject.implement.TaskDao;
 import com.myproject.implement.UserDao;
@@ -39,7 +40,9 @@ public class TaskServlet extends HttpServlet{
 		switch (action) {
 		case "/task":
 			req.setAttribute("listTask", taskDao.getAll());
-			req.setAttribute("listUser", userDao.getAll());
+//			for (Object t : taskDao.getAll()) {
+//				System.out.println(t.toString());
+//			}
 			req.getRequestDispatcher(pathIndex).forward(req, resp);
 			break;
 		case "/task/add":
@@ -68,8 +71,7 @@ public class TaskServlet extends HttpServlet{
 			break;
 		case "/task/search":
 			String input = req.getParameter("key");
-			List<Task> list = taskDao.findShortDesc(input);
-			req.setAttribute("listTaskSDesc", list);
+			req.setAttribute("listTask", taskDao.findShortDesc(input));
 			req.setAttribute("listUser", userDao.getAll());
 			req.setAttribute("key", input);
 			req.getRequestDispatcher(pathIndex).forward(req, resp);

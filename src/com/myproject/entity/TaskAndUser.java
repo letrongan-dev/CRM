@@ -3,9 +3,7 @@ package com.myproject.entity;
 public class TaskAndUser extends Task {
 	private String nameUser;
 
-	public TaskAndUser() {
-		
-	}
+	public TaskAndUser() {}
 	
 	public TaskAndUser(String nameUser) {
 		super();
@@ -19,6 +17,10 @@ public class TaskAndUser extends Task {
 	public void setNameUser(String nameUser) {
 		this.nameUser = nameUser;
 	}
-	
+
+	@Override
+	public String toString() {
+		return super.toString()+"userName: "+nameUser;
+	}
 	
 }

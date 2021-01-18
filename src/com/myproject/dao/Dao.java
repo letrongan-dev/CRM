@@ -3,9 +3,9 @@ package com.myproject.dao;
 import java.util.List;
 
 public interface Dao {
-	public List<Object> getAll();
-	public Object getById(int id);
-	public void add(Object ob);
-	public void delete(int id);
-	public void update(Object ob);
+	List<Object> getAll();
+	Object getById(int id);
+	void add(Object ob);
+	void delete(int id);
+	void update(Object ob);
 }

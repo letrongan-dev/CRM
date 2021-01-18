@@ -35,18 +35,15 @@
 		<tbody>
 			<c:forEach items="${listTask }" var="task">
 			<tr>
+				<%-- <td>
+                  <button type="button" class="btn btn-success btn-sm fa fa-info text-black" data-toggle="modal" data-target="#mediumModal${task.id}"></button>
+                </td> --%>
 				<td>${task.id }</td>
 				<td><a href='<c:url value="/task/get-task?id=${task.id }"/>'>
 				${task.short_description }</a></td>
 				<td><fmt:formatDate value="${task.start_date }" type="date" pattern="dd/MM/yyyy"/></td>
 				<td><fmt:formatDate value="${task.end_date }" type="date" pattern="dd/MM/yyyy"/></td>
-				<td>
-				<c:forEach items="${listUser }" var="user">
-					<c:if test="${user.id == task.user_id }">
-							${user.name }
-					</c:if>
-				</c:forEach>
-				</td>
+				<td>${task.nameUser }</td>
 				<c:choose>
 						<c:when test="${task.status == '0'}">
                    			<td>*</td>
@@ -127,6 +124,25 @@
      </div>
    </div>
  </div>
+<%-- <c:forEach items="${listTask}" var="task">
+<div class="modal fade" id="mediumModal${task.id }" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Mô tả công việc</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ${task.description }
+                </p>
+            </div>
+        </div>
+    </div>
+</div> 
+</c:forEach>--%>
 <%--<c:forEach items="${listTask }" var="taskEditModal">
 <div class="modal fade" id="editModal${taskEditModal.id }" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
    <div class="modal-dialog" role="document">

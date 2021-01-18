@@ -61,7 +61,7 @@ $(document).ready(function() {
 				email: {
 					required : true,
 					email: true,
-					remote : {
+					/*remote : {
 						url: decodeURI(url+"/availabel"),
 						type: "get",
 						data: {
@@ -69,7 +69,7 @@ $(document).ready(function() {
 								return $("#email").val();
 							}
 						}
-					}
+					}*/
 				},
 				password: {
 					required : true,
@@ -78,6 +78,7 @@ $(document).ready(function() {
 			},
 			messages: {
 				email: {
+					required: "Email không được để trống",
 					remote: "Email already exists!"
 				},
 				name: {

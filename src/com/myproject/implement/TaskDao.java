@@ -21,13 +21,13 @@ public class TaskDao implements Dao {
 		List<Task> listTask = null;
 		try {
 			listTask = new ArrayList<Task>();
-			String query = "select * from task where short_description like '%"+input+"%'";
+			String query = "select * from task t inner join user u on t.user_id = u.id where short_description like '%"+input+"%'";
 			Connection connection = JDBCConnection.getConnection();
 			Statement statement = connection.createStatement();
 			try {
 				ResultSet resultSet = statement.executeQuery(query);
 				while (resultSet.next()) {
-					Task task = new Task();
+					Task task = new TaskAndUser();
 					task.setId(resultSet.getInt("id"));
 					task.setShort_description(resultSet.getString("short_description"));
 					task.setStart_date(resultSet.getDate("start_date"));
@@ -36,10 +36,14 @@ public class TaskDao implements Dao {
 					task.setUser_id(resultSet.getInt("user_id"));
 					task.setStatus(resultSet.getInt("status"));
 					task.setTask_id(resultSet.getInt("task_id"));
+					((TaskAndUser) task).setNameUser(resultSet.getString("name"));
 					listTask.add(task);
 				}	
 			} catch (SQLException e) {
 				throw e;
+			}finally {
+				if(connection!=null)
+					connection.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,14 +116,14 @@ public class TaskDao implements Dao {
 		List<Task> lst = null;
 		try {
 			lst = new ArrayList<Task>();
-			String query = "select * from task where task_id = ?";
+			String query = "select * from task t inner join user u on t.user_id = u.id where task_id = ?";
 			Connection connection = JDBCConnection.getConnection();
 			PreparedStatement statement = connection.prepareStatement(query);
 			try{
 				statement.setInt(1, id);
 				ResultSet resultSet = statement.executeQuery();
 				while (resultSet.next()) {
-					TaskAndUser task = new TaskAndUser();
+					Task task = new TaskAndUser();
 					task.setId(resultSet.getInt("id"));
 					task.setShort_description(resultSet.getString("short_description"));
 					task.setStart_date(resultSet.getDate("start_date"));
@@ -128,6 +132,7 @@ public class TaskDao implements Dao {
 					task.setUser_id(resultSet.getInt("user_id"));
 					task.setStatus(resultSet.getInt("status"));
 					task.setTask_id(resultSet.getInt("task_id"));
+					((TaskAndUser) task).setNameUser(resultSet.getString("name"));
 					lst.add(task);
 				}	
 			}catch (SQLException e) {
@@ -172,13 +177,13 @@ public class TaskDao implements Dao {
 		List<Object> listTask = null;
 		try {
 			listTask = new ArrayList<Object>();
-			String query = "select * from task";
+			String query = "select * from task t inner join user u on t.user_id = u.id";
 			Connection connection = JDBCConnection.getConnection();
 			try {
 				PreparedStatement statement = connection.prepareStatement(query);
 				ResultSet resultSet = statement.executeQuery();
 				while (resultSet.next()) {
-					TaskAndUser task = new TaskAndUser();
+					Task task = new TaskAndUser();
 					task.setId(resultSet.getInt("id"));
 					task.setShort_description(resultSet.getString("short_description"));
 					task.setStart_date(resultSet.getDate("start_date"));
@@ -187,6 +192,7 @@ public class TaskDao implements Dao {
 					task.setUser_id(resultSet.getInt("user_id"));
 					task.setStatus(resultSet.getInt("status"));
 					task.setTask_id(resultSet.getInt("task_id"));
+					((TaskAndUser) task).setNameUser(resultSet.getString("name"));
 					listTask.add(task);
 				}	
 			} catch (SQLException e) {
@@ -198,7 +204,6 @@ public class TaskDao implements Dao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return listTask;
 	}
 
@@ -255,6 +260,8 @@ public class TaskDao implements Dao {
 				connection.commit();
 				return;
 			} catch (SQLException e) {
+				connection.rollback();
+			}finally {
 				connection.close();
 				statement.close();
 			}

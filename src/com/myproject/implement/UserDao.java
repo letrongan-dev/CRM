@@ -80,7 +80,7 @@ public class UserDao implements Dao{
 		List<Object> listUsers = new ArrayList<Object>();
 		try {
 			Connection connection = JDBCConnection.getConnection();
-			String query = "select * from user";
+			String query = "select * from user where is_deleted = 0";
 			try {
 				PreparedStatement statement = connection.prepareStatement(query);
 				ResultSet resultSet = statement.executeQuery();
@@ -167,12 +167,11 @@ public class UserDao implements Dao{
 	public void delete(int id) {
 		try {
 			Connection connection = JDBCConnection.getConnection();
-			String query = "delete from user where id=?";
+			String query = "update user set is_deleted = 1 where id=?";
 			PreparedStatement statement = connection.prepareStatement(query);
 			try{
 				connection.setAutoCommit(false);
 				statement.setInt(1, id);
-				
 				statement.executeUpdate();
 				connection.commit();
 			} catch (SQLException e) {
