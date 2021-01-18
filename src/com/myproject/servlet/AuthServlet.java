@@ -24,7 +24,8 @@ public class AuthServlet extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public AuthServlet() {
-        userDao = new UserDao();
+        userDao = new UserDao() {
+		};
     }
 
 	/**

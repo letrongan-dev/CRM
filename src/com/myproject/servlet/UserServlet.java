@@ -29,8 +29,8 @@ public class UserServlet extends HttpServlet {
 	
 	
     public UserServlet() {
-    	userDao = new UserDao();
-    	taskDao = new TaskDao();
+    	userDao = new UserDao() {};
+    	taskDao = new TaskDao() {};
     }
   
 	@Override

@@ -29,8 +29,8 @@ public class TaskServlet extends HttpServlet{
 	String pathGet = "/WEB-INF/task/get.jsp";
 	String pathSearch = "/WEB-INF/task/search.jsp";
 	public TaskServlet() {
-		taskDao = new TaskDao();
-		userDao = new UserDao();
+		userDao = new UserDao() {};
+    	taskDao = new TaskDao() {};
 	}
 	
 	@Override
@@ -66,13 +66,11 @@ public class TaskServlet extends HttpServlet{
 			int idGet = Integer.valueOf(req.getParameter("id"));
 			req.setAttribute("taskGet", taskDao.getById(idGet));
 			req.setAttribute("listTask", taskDao.getTaskByTaskID(idGet));
-			req.setAttribute("listUser", userDao.getAll());
 			req.getRequestDispatcher(pathGet).forward(req, resp);
 			break;
 		case "/task/search":
 			String input = req.getParameter("key");
 			req.setAttribute("listTask", taskDao.findShortDesc(input));
-			req.setAttribute("listUser", userDao.getAll());
 			req.setAttribute("key", input);
 			req.getRequestDispatcher(pathIndex).forward(req, resp);
 			break;
@@ -140,8 +138,6 @@ public class TaskServlet extends HttpServlet{
 		
 		default:
 			break;
-		}
-		
-		
+		}	
 	}
 }

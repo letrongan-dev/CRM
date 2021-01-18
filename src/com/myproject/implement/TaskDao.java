@@ -15,7 +15,7 @@ import com.myproject.entity.TaskAndUser;
 
 
 
-public class TaskDao implements Dao {
+public abstract class TaskDao implements Dao<Task, Integer> {
 
 	public List<Task> findShortDesc(String input){
 		List<Task> listTask = null;
@@ -173,10 +173,10 @@ public class TaskDao implements Dao {
 	}
 
 	@Override
-	public List<Object> getAll() {
-		List<Object> listTask = null;
+	public List<Task> getAll() {
+		List<Task> listTask = null;
 		try {
-			listTask = new ArrayList<Object>();
+			listTask = new ArrayList<Task>();
 			String query = "select * from task t inner join user u on t.user_id = u.id";
 			Connection connection = JDBCConnection.getConnection();
 			try {
@@ -208,7 +208,7 @@ public class TaskDao implements Dao {
 	}
 
 	@Override
-	public Object getById(int id){
+	public Task getById(Integer id){
 		Task task = null;
 		try {
 			String query = "select * from task where id = ?";
@@ -242,19 +242,19 @@ public class TaskDao implements Dao {
 	}
 
 	@Override
-	public void add(Object ob) {
+	public void add(Task task) {
 		try {
 			String query = "insert into task (short_description, description, start_date, end_date, task_id, user_id) values (?,?,?,?,?,?)";
 			Connection connection = JDBCConnection.getConnection();
 			PreparedStatement statement = connection.prepareStatement(query);
 			try {
 				connection.setAutoCommit(false);
-				statement.setString(1, ((Task) ob).getShort_description());
-				statement.setString(2, ((Task) ob).getDescription());
-				statement.setDate(3, ((Task) ob).getStart_date());
-				statement.setDate(4, ((Task) ob).getEnd_date());
-				statement.setInt(5, ((Task) ob).getTask_id());
-				statement.setInt(6, ((Task) ob).getUser_id());
+				statement.setString(1, task.getShort_description());
+				statement.setString(2, task.getDescription());
+				statement.setDate(3, task.getStart_date());
+				statement.setDate(4, task.getEnd_date());
+				statement.setInt(5, task.getTask_id());
+				statement.setInt(6, task.getUser_id());
 				
 				statement.execute();
 				connection.commit();
@@ -273,7 +273,7 @@ public class TaskDao implements Dao {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(Integer id) {
 		try {
 			String query = "delete from task where id=?";
 			Connection connection = JDBCConnection.getConnection();
@@ -298,19 +298,19 @@ public class TaskDao implements Dao {
 	}
 
 	@Override
-	public void update(Object ob) {
+	public void update(Task task) {
 		try {
 			String query = "update task set short_description=?, description=?, start_date=?, end_date=?, user_id=? where id=? ";
 			Connection connection = JDBCConnection.getConnection();
 			PreparedStatement statement = connection.prepareStatement(query);
 			try {
 				connection.setAutoCommit(false);
-				statement.setString(1, ((Task) ob).getShort_description());
-				statement.setString(2, ((Task) ob).getDescription());
-				statement.setDate(3, ((Task) ob).getStart_date());
-				statement.setDate(4, ((Task) ob).getEnd_date());
-				statement.setInt(5, ((Task) ob).getUser_id());
-				statement.setInt(6, ((Task) ob).getId());
+				statement.setString(1, task.getShort_description());
+				statement.setString(2, task.getDescription());
+				statement.setDate(3, task.getStart_date());
+				statement.setDate(4, task.getEnd_date());
+				statement.setInt(5, task.getUser_id());
+				statement.setInt(6, task.getId());
 				
 				statement.executeUpdate();
 				connection.commit();
@@ -327,5 +327,4 @@ public class TaskDao implements Dao {
 		
 		return;
 	}
-
 }

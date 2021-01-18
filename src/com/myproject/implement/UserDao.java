@@ -11,7 +11,7 @@ import com.myproject.connection.JDBCConnection;
 import com.myproject.dao.Dao;
 import com.myproject.entity.User;
 
-public class UserDao implements Dao{
+public abstract class UserDao implements Dao<User, Integer>{
 
 	public User findByEmail(String email) {
 		User user = null;
@@ -76,8 +76,8 @@ public class UserDao implements Dao{
 	}
 	
 	@Override
-	public List<Object> getAll() {
-		List<Object> listUsers = new ArrayList<Object>();
+	public List<User> getAll() {
+		List<User> listUsers = new ArrayList<User>();
 		try {
 			Connection connection = JDBCConnection.getConnection();
 			String query = "select * from user where is_deleted = 0";
@@ -106,7 +106,7 @@ public class UserDao implements Dao{
 	}
 
 	@Override
-	public Object getById(int id) {
+	public User getById(Integer id) {
 		User user = null;
 		try {
 			Connection connection = JDBCConnection.getConnection();
@@ -137,17 +137,17 @@ public class UserDao implements Dao{
 	}
 
 	@Override
-	public void add(Object ob) {
+	public void add(User user) {
 		try {
 			Connection connection = JDBCConnection.getConnection();
 			String query = "insert into user (email, password, name, role ) values (?,?,?,?)";
 			PreparedStatement statement = connection.prepareStatement(query);
 			try {
 				connection.setAutoCommit(false);
-				statement.setString(1, ((User) ob).getEmail());
-				statement.setString(2, ((User) ob).getPassword());
-				statement.setString(3, ((User) ob).getName());
-				statement.setString(4, ((User) ob).getRole());
+				statement.setString(1, user.getEmail());
+				statement.setString(2, user.getPassword());
+				statement.setString(3, user.getName());
+				statement.setString(4, user.getRole());
 				
 				statement.execute();
 				connection.commit();
@@ -164,7 +164,7 @@ public class UserDao implements Dao{
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(Integer id) {
 		try {
 			Connection connection = JDBCConnection.getConnection();
 			String query = "update user set is_deleted = 1 where id=?";
@@ -187,7 +187,7 @@ public class UserDao implements Dao{
 	}
 
 	@Override
-	public void update(Object ob) {
+	public void update(User user) {
 		try {
 			Connection connection = JDBCConnection.getConnection();
 			String query = "update user set email=?, password=?, name=?, role=? where id=? ";
@@ -195,11 +195,11 @@ public class UserDao implements Dao{
 			try {
 				connection.setAutoCommit(false);
 				
-				statement.setString(1, ((User) ob).getEmail());
-				statement.setString(2, ((User) ob).getPassword());
-				statement.setString(3, ((User) ob).getName());
-				statement.setString(4, ((User) ob).getRole());
-				statement.setInt(5, ((User) ob).getId());
+				statement.setString(1, user.getEmail());
+				statement.setString(2, user.getPassword());
+				statement.setString(3, user.getName());
+				statement.setString(4, user.getRole());
+				statement.setInt(5, user.getId());
 				
 				statement.executeUpdate();
 				connection.commit();
